@@ -1,15 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { redirect } = require("express/lib/response");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: true}));
+var items = ["Buy food", "Drink milk", "Keep coding!"];
 
 app.set("view engine", "ejs");
 
-app.get("/", function(req, res){
+app.use(bodyParser.urlencoded({extended: true}));
 
-    res.render('index', {foo: 'FOO'});
+app.get("/", function(req, res){
 
     var today = new Date();
 
@@ -21,10 +22,17 @@ app.get("/", function(req, res){
 
     var day = today.toLocaleDateString("en-US", options);
 
-    res.render("list", {kindOfDay: day});
+    res.render("list", {kindOfDay: day, newListItem: items});
 
 });
 
+app.post("/", function(req, res){
+    var item = req.body.newList;
+
+    items.push(item);
+    
+    res.redirect("/")
+});
 
 
 app.listen(3000, function(){
