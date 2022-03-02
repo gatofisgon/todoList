@@ -9,6 +9,7 @@ let items = ["Buy food", "Drink milk", "Keep coding!"];
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 
 app.get("/", function(req, res){
 
